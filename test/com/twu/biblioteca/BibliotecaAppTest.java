@@ -11,18 +11,20 @@ import static org.junit.Assert.assertTrue;
 public class BibliotecaAppTest {
 
     @Test
-    public void test_Welcome_Msg() {
-
-        assertEquals(BibliotecaApp.WelcomeMsg(),"Welcome to Biblioteca");
+    public void testWelcomeMessageIsDisplayed(){
+        BibliotecaApp bibliotecaApp = new BibliotecaApp(new Library(null));
+        assertEquals("Welcome to Biblioteca", bibliotecaApp.DisplayWelcomeMessage());
     }
 
     @Test
-    public void test_DisplayMenu() throws IOException {
-        assertEquals(BibliotecaApp.DisplayMenu(),"The menu items are:\n1.View list of books\n2.Check out books\n3.Check in books\n4.Exit");
+    public void testIfMenuIsDisplayed(){
+        BibliotecaApp bibliotecaApp = new BibliotecaApp(new Library(null));
+        assertEquals(bibliotecaApp.DisplayMenuItems(),"[List of books, Check Out, Check In, Exit]");
     }
 
     @Test
-    public void test_Invalid_Input() throws IOException {
-        assertEquals(BibliotecaApp.DelegateInput(4),"Invalid option.Select a valid option!");
+    public void testIfvalidOptionIsChosen(){
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(new Library(null));
+        assertEquals(bibliotecaApp.CheckInput("Check Out"),"Valid option");
     }
 }

@@ -9,22 +9,27 @@ import java.util.*;
 
 public class BibliotecaApp {
 
-    public static void main(String[] args) throws IOException {
-        WelcomeMsg();
-        DisplayMenu();
-        TakeInput();
+    Library library;
+
+    public BibliotecaApp(Library library){
+        this.library=library;
     }
-    public static String WelcomeMsg(){
-        String msg="Welcome to Biblioteca";
-        System.out.println("Welcome to Biblioteca");
-        return msg;
+
+    public String DisplayWelcomeMessage() {
+        return "Welcome to Biblioteca";
     }
-    public static String DisplayMenu() throws IOException {
-        String menu="The menu items are:\n1.View list of books\n2.Check out books\n3.Check in books\n4.Exit";
-        System.out.println("The menu items are:\n1.View list of books\n2.Check out books\n3.Check in books\n4.Exit");
-        return menu;
+
+    public String DisplayMenuItems() {
+        return library.list_of_menu.toString();
     }
-    public static void TakeInput() throws IOException {
+
+    public String CheckInput(String choice) {
+        if(library.list_of_menu.contains(choice))
+            return "Valid option";
+        else
+            return "Invalid option";
+    }
+  /*  public static void TakeInput() throws IOException {
         BufferedReader x=new BufferedReader(new InputStreamReader(System.in));
         int choice=0;
         do {
@@ -37,7 +42,7 @@ public class BibliotecaApp {
         Library lib=new Library();
         BufferedReader x=new BufferedReader(new InputStreamReader(System.in));
         switch(choice){
-            case 1:System.out.println(lib.FetchList().toString());
+          //  case 1:System.out.println(lib.FetchList().toString());
                 break;
             case 2:System.out.println("Enter the book you are checking out:");
 
@@ -52,7 +57,7 @@ public class BibliotecaApp {
 
         }
         return "Valid Option";
-    }
+    }*/
 
 
 

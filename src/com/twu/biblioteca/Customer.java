@@ -1,10 +1,26 @@
 package com.twu.biblioteca;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ArrayList;
+
 /**
- * Created by deeptibn on 2/25/14.
+ * Created by deeptibn on 2/27/14.
  */
 public class Customer {
-    public static String Name="abc";
-    public static String books[]=new String[5];
-    public static int no_of_books=0;
+
+    ArrayList<String> books_held;
+    public Customer(){
+        books_held=new ArrayList<String>();
+    }
 }
+
+   /* public static void addTakenBook(String book){
+        booksHeld.add(book);
+    }
+    public static void removeReturnedBook(String book){
+        booksHeld.remove(book);
+    }*/
+
+
+
