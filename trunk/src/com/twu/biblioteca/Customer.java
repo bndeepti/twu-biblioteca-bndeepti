@@ -1,6 +1,5 @@
-
 package com.twu.biblioteca;
-import java.util.AbstractCollection;
+
 import java.util.ArrayList;
 
 /**
@@ -8,37 +7,31 @@ import java.util.ArrayList;
  */
 public class Customer {
 
-    ArrayList<String> books_held;
-    ArrayList<String> movies_held;
+    ArrayList<Book> books_held;
+    ArrayList<Movie> movies_held;
     String name;
     String password;
-    String library_card_number;
-    int login_status;
+    String libcardnum;
+    boolean loginstatus;
     String phone;
-    String email_address;
+    String email;
 
-    public Customer(){
-        books_held=new ArrayList<String>();
-        movies_held=new ArrayList<String>();
-        name="Jack";
-        password="xzy";
-        library_card_number="123-4567";
-        login_status=0;
-        email_address="jack@mail.com";
-        phone="9876543210";
+    public Customer(String name, String password, String libcardnum, boolean loginstatus, String phone, String email){
+
+        this.name=name;
+        this.password=password;
+        this.libcardnum=libcardnum;
+        this.loginstatus=loginstatus;
+        this.phone=phone;
+        this.email=email;
+        books_held=new ArrayList<Book>();
+        movies_held=new ArrayList<Movie>();
     }
-    public boolean Login(String name, String library_card_number){
-        if(this.name.equals(name)&&this.library_card_number.equals(library_card_number))
-        {
-            this.login_status=1;
-            return true;
-        }
-        else return false;
-    }
+
     public String DisplayCustomerProfile() {
         String profile="";
-        if(login_status==1)
-            profile+="Name:"+name+" Email Address:"+email_address+" Phone:"+phone;
+        if(this.loginstatus==true)
+            profile+="Name:"+this.name+" Email Address:"+this.email+" Phone:"+this.phone;
         return profile;
     }
 }

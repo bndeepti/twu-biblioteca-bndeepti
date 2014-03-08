@@ -1,4 +1,5 @@
 package com.twu.biblioteca;
+
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -8,67 +9,84 @@ import static org.junit.Assert.assertEquals;
  */
 public class LibraryTest {
 
-
-
-    @Test
+   @Test
     public void testIfListOfBooksisDisplayed(){
-        Library library = new Library(new Customer());
-        assertEquals(library.DisplayListOfBooks(),"[Alchemist, Inferno]");
+        Library library = new Library();
+        assertEquals(library.DisplayListOfBooks(),"Alchemist"+"\n"+"Inferno"+"\n");
     }
 
     @Test
-    public void testIfInvalidOptionIsChosen(){
-        Library library=new Library(new Customer());
-        assertEquals(library.CheckInput("Buy a book"),"Invalid option");
+    public void testIfCheckOutBookIsSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        assertEquals(library.CheckOutBook("Alchemist", bibliotecaApp.current_customer), true);
     }
 
     @Test
-    public void testIfCheckOutIsSuccessful(){
-        Library library = new Library(new Customer());
-        assertEquals(library.CheckOut("Alchemist"),"Thank you! Enjoy the book");
+    public void testIfCheckOutBookIsUnSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        assertEquals(library.CheckOutBook("Famous Five",bibliotecaApp.current_customer ),false);
     }
 
     @Test
-    public void testIfCheckOutIsUnSuccessful(){
-        Library library = new Library(new Customer());
-        assertEquals(library.CheckOut("Lajja"),"That book is not available");
+    public void testIfCheckInBookIsSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        library.CheckOutBook("Alchemist", bibliotecaApp.current_customer);
+        assertEquals(library.CheckInBook("Alchemist",bibliotecaApp.current_customer), true);
     }
 
     @Test
-    public void testIfCheckInIsSuccessful(){
-        Library library = new Library(new Customer());
-        library.CheckOut("Alchemist");
-        assertEquals(library.CheckIn("Alchemist"), "Thank you for returning the book");
-    }
-
-    @Test
-    public void testIfCheckInIsUnSuccessful(){
-        Library library = new Library(new Customer());
-        library.CheckOut("Alchemist");
-        assertEquals(library.CheckIn("Lajja"),"That is not a valid book to return");
+    public void testIfCheckInBookIsUnSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        library.CheckOutBook("Alchemist",bibliotecaApp.current_customer);
+        assertEquals(library.CheckInBook("Inferno",bibliotecaApp.current_customer),false);
     }
 
     @Test
     public void testIfListOfMovieIsDisplayed(){
-        Library library = new Library(new Customer());
-        assertEquals(library.DisplayListOfMovies(),"Batman Ironman ");
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        assertEquals(library.DisplayListOfMovies(), "Batman"+"\n"+"Ironman"+"\n");
     }
 
     @Test
-    public void testIfMovieIsCheckedOut(){
-        Library library = new Library(new Customer());
-        assertEquals(library.CheckOutMovie("Batman"),"Thank you! Enjoy the movie");
+    public void testIfCheckOutMovieIsSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        assertEquals(library.CheckOutMovie("Batman",bibliotecaApp.current_customer),true);
     }
 
     @Test
-    public void testIfMovieIsNotCheckedOut(){
-        Library library = new Library(new Customer());
-        assertEquals(library.CheckOutMovie("Superman"),"That movie is not available");
+    public void testIfCheckOutMovieIsUnsuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        assertEquals(library.CheckOutMovie("Superman",bibliotecaApp.current_customer),false);
     }
 
     @Test
-    public void testToValidateUserLogin(){
-        Library library = new Library(new Customer());
-        assertEquals(library.ValidateUserLogin("Jack", "123-4567"),true);
+    public void testIfCheckInMovieIsSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        library.CheckOutMovie("Batman", bibliotecaApp.current_customer);
+        assertEquals(library.CheckInMovie("Batman",bibliotecaApp.current_customer), true);
+    }
+
+    @Test
+    public void testIfCheckInMovieIsUnSuccessful(){
+        Library library = new Library();
+        BibliotecaApp bibliotecaApp=new BibliotecaApp(library);
+        bibliotecaApp.UserLogin("Jack","100");
+        library.CheckOutMovie("Batman",bibliotecaApp.current_customer);
+        assertEquals(library.CheckInMovie("Superman",bibliotecaApp.current_customer),false);
     }
 }
