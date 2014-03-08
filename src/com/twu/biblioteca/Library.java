@@ -1,105 +1,111 @@
 package com.twu.biblioteca;
+
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by deeptibn on 2/27/14.
  */
 public class Library {
 
-    ArrayList<String> list_of_books;
-    ArrayList<String> list_of_menu;
-    ArrayList<Movie> list_of_movies;
-    Customer customer;
+    Menu libmenu;
+    Repository repository;
+    ArrayList<Book> checkedOutBooks;
+    ArrayList<Movie> checkedOutMovies;
 
-    public Library(Customer customer){
-        list_of_books=new ArrayList<String>();
-        list_of_books.add("Alchemist");
-        list_of_books.add("Inferno");
-        list_of_menu=new ArrayList<String>();
-        list_of_menu.add("List of books");
-        list_of_menu.add("Check Out");
-        list_of_menu.add("Check In");
-        list_of_menu.add("Exit");
-        list_of_movies=new ArrayList<Movie>();
-        list_of_movies.add(new Movie("Batman",2005,"Christopher Nolan",8));
-        list_of_movies.add(new Movie("Ironman",2004,"Jon Favreau",8));
-        this.customer=customer;
+    public Library(){
+        repository=new Repository();
+        libmenu=new Menu();
+        checkedOutBooks=new ArrayList<Book>();
+        checkedOutMovies=new ArrayList<Movie>();
     }
 
+   public String DisplayListOfBooks() {
 
-
-    public String DisplayListOfBooks() {
-        return list_of_books.toString();
-    }
-
-
-
-    public String CheckOut(String book) {
-        if(list_of_books.contains(book)&&!customer.books_held.contains(book)){
-            customer.books_held.add(book);
-            list_of_books.remove(book);
-            return "Thank you! Enjoy the book";
-        }
-        else
-            return "That book is not available";
-    }
-
-    public String CheckIn(String book) {
-        if(!list_of_books.contains(book)&&customer.books_held.contains(book)){
-            customer.books_held.remove(book);
-            list_of_books.add(book);
-            return "Thank you for returning the book";
-        }
-        else
-            return "That is not a valid book to return";
-    }
-
-    public String CheckInput(String choice) {
-        if(list_of_menu.contains(choice))
-            return "Valid option";
-        else
-            return "Invalid option";
-    }
-
+       String s="";
+       for(Book book1 : repository.books ){
+           if(!checkedOutBooks.contains(book1))
+           s+=book1.title+"\n";
+       }
+       return s;
+   }
 
     public String DisplayListOfMovies() {
-        String movie="";
-        Iterator<Movie> it=list_of_movies.iterator();
-        while(it.hasNext()){
-            movie+=it.next().name+" ";
+
+        String s="";
+        for(Movie movie1 : repository.movies ){
+            if(!checkedOutMovies.contains(movie1))
+            s+=movie1.name+"\n";
         }
-        return movie;
+        return s;
     }
 
-    public String CheckOutMovie(String movie) {
-        String m;
+    public boolean CheckOutBook(String book, Customer customer) {
         int flag=0;
-        if(ValidateUserLogin("Jack","123-4567")==true){
-            Iterator<Movie> it=list_of_movies.iterator();
-            while(it.hasNext()){
-                m=it.next().name;
-                if(m.equals(movie)&&!customer.movies_held.contains(movie))
-                {
-                    customer.movies_held.add(m);
-                    flag=1;
-                }
+        for(Book book1 : repository.books ){
+            if(book1.title.equals(book) && !checkedOutBooks.contains(book1)){
+                customer.books_held.add(book1);
+                //repository.books.remove(book1);
+                checkedOutBooks.add(book1);
+                flag=1;
+                break;
             }
-            if(flag==0)
-                return "That movie is not available";
-            else
-                return "Thank you! Enjoy the movie";
         }
-        else return "Incorrect User Credentials";
-    }
-
-    public boolean ValidateUserLogin(String name, String library_card_number){
-        if(customer.Login(name,library_card_number)==true)
+        if(flag==1)
             return true;
         else
             return false;
     }
 
+    public boolean CheckInBook(String book, Customer customer) {
+        int flag=0;
+        for(Book book1 : repository.books ){
+            if(book1.title.equals(book) && checkedOutBooks.contains(book1) && customer.books_held.contains(book1)){
+                customer.books_held.remove(book1);
+                //repository.books.add(book1);
+                checkedOutBooks.remove(book1);
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1)
+            return true;
+        else
+            return false;
+    }
 
+    public boolean CheckOutMovie(String movie, Customer customer) {
+        int flag=0;
+        for(Movie movie1 : repository.movies ){
+            if(movie1.name.equals(movie) && !checkedOutMovies.contains(movie1)){
+                customer.movies_held.add(movie1);
+                //repository.books.remove(book1);
+                checkedOutMovies.add(movie1);
+                flag=1;
+                break;
+            }
+        }
+        if(flag==1)
+            return true;
+        else
+            return false;
+    }
 
+    public boolean CheckInMovie(String movie, Customer customer) {
+        int flag=0;
+
+            for(Movie movie1 : repository.movies ){
+                if(movie1.name.equals(movie) && checkedOutMovies.contains(movie1)&&customer.movies_held.contains(movie1)){
+                    customer.movies_held.remove(movie1);
+                    //repository.books.remove(book1);
+                    checkedOutMovies.remove(movie1);
+                    flag=1;
+                    break;
+                }
+            }
+
+        if(flag==1)
+            return true;
+        else
+            return false;
+    }
 }

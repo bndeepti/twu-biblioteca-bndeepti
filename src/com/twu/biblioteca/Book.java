@@ -1,13 +1,13 @@
 package com.twu.biblioteca;
 
 /**
- * Created by deeptibn on 2/25/14.
+ * Created by deeptibn on 3/5/14.
  */
 public class Book {
-    public String Name="";
-    public int copies;
-    public Book(String name,int num){
-        Name=name;
-        copies=num;
+    String isbn;
+    String title;
+    public Book(String isbn, String title) {
+        this.isbn=isbn;
+        this.title=title;
     }
 }
